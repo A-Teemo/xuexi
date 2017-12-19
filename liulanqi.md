@@ -47,7 +47,7 @@ IE8一下透明度没用，解决方案： filter: alpha(opacity=50);
     <script src="./js/jquery-3.0.0.min.js"></script>
     <!-- 导入bootstrap样式 -->
     <script src="./bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
-兼容IE9以下的浏览器
+兼容IE9以下的浏览器 
   <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
