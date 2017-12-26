@@ -11,6 +11,8 @@ visibility(visible:显示;hidden:隐藏)隐藏的元素还占位置,知识单纯
 使用
 <code>     </code>
 <pre>      </pre>
+
+iframe 标签可以嵌套网页
 ```
 ## 用div实现文本输入区域
 ```
