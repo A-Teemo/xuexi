@@ -5,7 +5,7 @@
   border: 1px solid #000;
   overflow: hidden;
 }
-
+.lieven{ background:#F0F2F3;}
 <div id="con2">
     <ul>
          <li><a href="#">欢迎111111111111</a></li>
@@ -39,5 +39,72 @@
       $(window).scroll(function() {
         console.log($(window).scrollTop());
       });
+</script>
+
+```
+--------------------------------------------------------------------------------------------
+## 无缝滚动
+```
+<script type="text/javascript">
+$(document).ready(function(){
+  // JavaScript Document
+(function($){
+	$.fn.myScroll = function(options){
+	var defaults = {
+		speed:40,
+		rowHeight:24
+	};
+
+	var opts = $.extend({}, defaults, options),intId = [];
+
+	function marquee(obj, step){
+    console.log(obj);
+		obj.find("ul").animate({
+			marginTop: '-=1'
+		},0,function(){
+				var s = Math.abs(parseInt($(this).css("margin-top")));
+				if(s >= step){
+          console.log(this);
+          console.log(123);
+					$(this).find("li").slice(0, 1).appendTo($(this));
+					$(this).css("margin-top", 0);
+				}
+			});
+		}
+    console.log();
+		this.each(function(i){
+			var sh = opts["rowHeight"],speed = opts["speed"],_this = $(this);
+			intId[i] = setInterval(function(){
+				if(_this.find("ul").height()<=_this.height()){
+					clearInterval(intId[i]);
+				}else{
+					marquee(_this, sh);
+				}
+			}, speed);
+
+			_this.hover(function(){
+				clearInterval(intId[i]);
+			},function(){
+				intId[i] = setInterval(function(){
+					if(_this.find("ul").height()<=_this.height()){
+						clearInterval(intId[i]);
+					}else{
+						marquee(_this, sh);
+					}
+				}, speed);
+			});
+
+		});
+
+	}
+})(jQuery);
+$('#con2 li:even').addClass('lieven');
+})
+$(function(){
+	$("#con2").myScroll({
+		speed:40, //数值越大，速度越慢
+		rowHeight:68 //li的高度
+	});
+});
 </script>
 ```
