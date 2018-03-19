@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #form1{
+        width: 500px;
+        margin: 0 auto;
+      }
+
+      .error {
+        color: red;
+        padding: 16px;
+        visibility: hidden;
+      }
+      </style>
+    </head>
+    <body>
+
+
+      <div id="form1">
+
+        <div class="error">用户名或者密码不能为空！</div>
+
+        <div class="error">用户名或者密码错误！</div>
+
+        姓名： <input type="text" name="user"  maxlength="8"/> <br><br>
+        密码： <input type="password"  name="passwd"/> <br><br>
+        性别:  <input type="radio" name="gender" value="0">男
+        <input type="radio" name="gender" value="1">女 <br><br>
+
+        <button id="login">登录</button>
+      </div>
+
+
+    <script src="./js/jquery-3.0.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    // 兼容低版本ie浏览器的代码,对于现代浏览器可以省略部分代码
+    function createXHR(){
+      if (typeof XMLHttpRequest != "undefined"){
+        return new XMLHttpRequest();
+      } else if (typeof ActiveXObject != "undefined"){
+        if (typeof arguments.callee.activeXString != "string"){
+          var versions = [ "MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0",
+          "MSXML2.XMLHttp"], i, len;
+          for (i=0,len=versions.length; i < len; i++){
+            try {
+              new ActiveXObject(versions[i]);
+              arguments.callee.activeXString = versions[i];
+              break;
+            } catch (ex){
+              //跳过
+            }
+          }
+        }
+        return new ActiveXObject(arguments.callee.activeXString);
+      } else {
+        throw new Error("No XHR object available.");
+      }
+    }
+
+
+
+      $(function(){
+
+        $("#login").click(function(){
+
+          //获得了控件的数据
+          var user = $("input[name=user]").val();
+          var passwd = $("input[name=passwd]").val();
+          var gender = $("input[name=gender]:checked").val();
+
+          //验证
+          if ((!user) ||  (!passwd)){
+            //如果user || passwd 为空，那么阻止提交
+            $(".error").eq(0).css("visibility", "visible");
+
+            //立刻返回，不在发送
+            return false;
+          }
+
+        //要发送数据
+
+        //1. 需要创建一个可以发送Ajax的对象
+        var xhr =  createXHR();
+
+        //2.调用open发送，准备发送一次post请求！！！
+        xhr.open("post", "/login", true);
+
+        //模仿表单的提交的数据格式
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+
+        //4. 准备接收服务端发来的数据
+        xhr.onreadystatechange = function () {
+          //只等待状态为4的
+          if (xhr.readyState === 4){
+
+            //判断是成功的状态
+            if (xhr.status >= 200 && xhr.status < 300 ){
+              //成功是，打印服务的响应数据
+
+              if (xhr.response === 'ok'){
+                location.href = "https://www.jd.com";
+              } else {
+
+                $(".error").eq(1).css("visibility", "visible");
+              }
+            }
+          }
+        };
+
+        //3. 调用send方法，发送一次HTTP请求
+        //发送post请求时，send方法要填写数据了
+
+        var data = "name=" + user + "&passwd=" + passwd + "&gender=" + gender;
+        xhr.send(data);
+      });
+
+    });
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>原生ajax</title>
+  </head>
+  <body>
+
+
+    <script type="text/javascript">
+
+    // 兼容低版本ie浏览器的代码,对于现代浏览器可以省略部分代码
+    function createXHR(){
+      if (typeof XMLHttpRequest != "undefined"){
+        return new XMLHttpRequest();
+      } else if (typeof ActiveXObject != "undefined"){
+        if (typeof arguments.callee.activeXString != "string"){
+          var versions = [ "MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0",
+          "MSXML2.XMLHttp"], i, len;
+          for (i=0,len=versions.length; i < len; i++){
+            try {
+              new ActiveXObject(versions[i]);
+              arguments.callee.activeXString = versions[i];
+              break;
+            } catch (ex){
+              //跳过
+            }
+          }
+        }
+        return new ActiveXObject(arguments.callee.activeXString);
+      } else {
+        throw new Error("No XHR object available.");
+      }
+    }
+
+    //1. 需要创建一个可以发送Ajax的对象
+    var xhr =  createXHR();
+
+    //2.调用open发送，准备发送一次请求！！！
+    xhr.open("get", "/index?name=lisi&age=10", true);
+
+
+
+    //4. 准备接收服务端发来的数据
+    //.  此部分代码必须要放在send之前，确保可以立刻响应服务端的数据
+    xhr.onreadystatechange = function () {
+      //只等待状态为4的
+      if (xhr.readyState === 4){
+
+        //判断是成功的状态
+        if (xhr.status >= 200 && xhr.status < 300 ){
+          //成功是，打印服务的响应数据
+          console.log(xhr.response);
+        }
+      }
+    };
+
+    //3. 调用send方法，发送一次HTTP请求
+    //.send的参数可以为空，但是必须要写
+    xhr.send();
+
+    console.log("after ajax send ....");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+  </body>
+</html>
