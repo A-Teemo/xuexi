@@ -18,8 +18,8 @@ app.get("/index", function(req, res, next){
     console.log(req.query);
 
     res.status(200);
-    res.send(req.query);
-
+    // res.send(req.query);
+    res.json({'one':10, 'two':20})
 });
 
 app.post("/index", function(req, res, next){
@@ -27,6 +27,32 @@ app.post("/index", function(req, res, next){
     console.log(req.body);
     res.status(200);
     res.send(req.body);
+});
+
+app.post("/table", function(req, res, next){
+
+    res.status(200);
+    let obj = {
+      stus: [
+        {
+          "name":"lisi",
+          "age": 10
+        },
+        {
+          "name":"zhangsan",
+          "age": 20
+        },
+        {
+          "name":"zhaoliu",
+          "age": 22
+        },
+        {
+          "name":"wangwu",
+          "age": 23
+        }
+      ]
+    };
+    res.json(obj);
 });
 
 app.post("/login", function(req, res, next){

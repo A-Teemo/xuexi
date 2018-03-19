@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jQuery的ajax</title>
+  </head>
+  <body>
+
+    <button id="btn">点击发送ajax</button>
+    <img src="/img/test.webp" alt="">
+
+    <script src="./js/jquery-3.0.0.min.js" charset="utf-8"></script>
+
+    <script src="./js/fetch.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    $(function(){
+
+      $("#btn").click(function(){
+
+        $.ajax({
+          //指定请求方法
+          method:"post",
+          //指定请求url
+          url: "/index",
+
+          //要发送的数据 name=lisi&age=22
+          data: {'name':'lisi', "age":22},
+
+          //成功时，接收服务端的数据
+          success: function(data, textStatus, jqXHR ){
+            console.log("从服务端接收到数据为:", data);
+          },
+          //失败时，输出错误原因
+          error: function(jqXHR ,textStatus, errorThrow){
+            console.log(textStatus,errorThrow);
+          }
+        });
+
+        // fetch("/index?name=lisi&age=10", {
+        //   method:"get",
+        // }).then(function(response){
+        //   console.log(response);
+        //    return response.json();
+        // }).then(function(json){
+        //   console.log(json);
+        // }).catch(function(e){
+        //   console.log(e);
+        // });
+
+
+      });
+
+    });
+
+    </script>
+
+  </body>
+</html>

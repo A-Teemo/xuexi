@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>生成表格</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        text-align: center;
+        margin: 50px auto;
+      }
+
+      tr,th,td {
+        border: 1px solid gray;
+      }
+
+      td,th {
+        width: 180px;
+      }
+
+      </style>
+    </head>
+    <body>
+
+    <button id="btn">点击获得数据生成表格</button>
+
+    <table id="student">
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>age</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+
+    <script src="./js/jquery-3.0.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    // 兼容低版本ie浏览器的代码,对于现代浏览器可以省略部分代码
+    function createXHR(){
+      if (typeof XMLHttpRequest != "undefined"){
+        return new XMLHttpRequest();
+      } else if (typeof ActiveXObject != "undefined"){
+        if (typeof arguments.callee.activeXString != "string"){
+          var versions = [ "MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0",
+          "MSXML2.XMLHttp"], i, len;
+          for (i=0,len=versions.length; i < len; i++){
+            try {
+              new ActiveXObject(versions[i]);
+              arguments.callee.activeXString = versions[i];
+              break;
+            } catch (ex){
+              //跳过
+            }
+          }
+        }
+        return new ActiveXObject(arguments.callee.activeXString);
+      } else {
+        throw new Error("No XHR object available.");
+      }
+    }
+
+
+
+      $(function(){
+
+        $("#btn").click(function(){
+
+        //1. 需要创建一个可以发送Ajax的对象
+        var xhr =  createXHR();
+
+        //2.调用open发送，准备发送一次post请求！！！
+        xhr.open("post", "/table", true);
+
+        //模仿表单的提交的数据格式
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+
+        //4. 准备接收服务端发来的数据
+        xhr.onreadystatechange = function () {
+          //只等待状态为4的
+          if (xhr.readyState === 4){
+
+            //判断是成功的状态
+            if (xhr.status >= 200 && xhr.status < 300 ){
+
+              //将数据拆解，生成表格到页面上
+              var data = JSON.parse(xhr.response).stus;
+
+              //dom操作
+              for (var i = 0, len = data.length; i < len ;i++ ){
+                $("#student tbody").append("<tr><td>" + data[i].name + "</td><td>" + data[i].age + "</td></tr>");
+              }
+            }
+          }
+        };
+
+        //3. 调用send方法，发送一次HTTP请求
+        //发送post请求时，send方法要填写数据了
+        xhr.send();
+      });
+
+    });
+
+    </script>
+
+  </body>
+</html>
