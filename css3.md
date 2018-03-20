@@ -222,3 +222,10 @@ step设置的是每次加减的增量
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>	//兼容媒体查询
 <![endif]-->
 ```
+## 垂直居中
+```
+position: absolute;
+    top: 50%;
+		left:50%;
+    transform: translate(-50%, -50%);
+```
